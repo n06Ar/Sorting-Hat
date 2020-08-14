@@ -1,0 +1,27 @@
+{
+    "name": "sorting-hat",
+    "version": "1.0.0",
+    "description": "組分け帽子",
+    "main": "./lib/index.js",
+    "author": "NobuhitoArai <nobht.arai@gmail.com>",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+        "execute": "ts-node src/index.ts",
+        "build": "tsc -p ."
+    },
+    "bin": {
+        "sorting-hat": "./lib/App.js"
+    },
+    "devDependencies": {
+        "@types/inquirer": "^7.3.0",
+        "@types/node": "^14.0.27",
+        "chalk": "^4.1.0",
+        "figlet": "^1.5.0",
+        "meow": "^7.0.1",
+        "nodemon": "^2.0.4",
+        "ts-node": "^8.10.2",
+        "typescript": "^3.9.7"
+    }
+}
