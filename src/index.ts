@@ -130,10 +130,11 @@ const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
         console.log(c.name)
         console.log("----------------------")
         c.students.forEach((value, index) => {
-            if (prefixes !== null && prefixes.length > index) {
-                console.log(`${prefixes[index]}`)
-            }
-            console.log(`${index + 1} : ${value.name}`)
+            const prefix =
+                prefixes !== null && prefixes.length > index
+                    ? prefixes[index]
+                    : index + 1
+            console.log(`${prefix} : ${value.name}`)
         });
         console.log("========================");
     })
