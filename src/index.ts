@@ -3,7 +3,8 @@ import fs from "fs"
 import path from "path"
 import inquirer from "inquirer"
 import chalk from "chalk"
-const figlet = require("figlet")
+import yaml from "js-yaml"
+import figlet from "figlet"
 
 import { Class, Student, SortData, Prefix } from "./type"
 
@@ -19,7 +20,7 @@ const main = (
     let data: SortData
 
     if (flags.file) {
-        // Get
+        // Get Object from file.
         const filename: string = flags.file as string
         data = getFileData(filename)
     } else if (args.length > 0 && args[0] === "generate") {
@@ -31,7 +32,7 @@ const main = (
     }
 
     displaySortingResult(sorting(data), data.prefixes)
-};
+}
 
 /**
  * Get sorting settings.
@@ -43,16 +44,18 @@ const getFileData = (filename: string): SortData => {
 
     switch (path.extname(filename)) {
         case ".json":
-            sorting = JSON.parse(fs.readFileSync(`${filename}`, "utf8"))
-            break;
+            sorting = JSON.parse(fs.readFileSync(filename, "utf8"))
+            break
         case ".yml":
+        case ".yaml":
+            sorting = yaml.safeLoad(fs.readFileSync(filename, "utf8"))
             break
         default:
             break
     }
 
     return sorting
-};
+}
 
 /**
  * Assign students to classes.
@@ -102,7 +105,7 @@ const sorting = (data: SortData): Class[] => {
             ) {
                 classes[classRandomIndex].students.push(student)
                 sortedStudentsCount++;
-                break
+                break;
             } else if (
                 // Assignment of people who cannot be divided
                 sortedStudentsCount >= classes.length * classStudentNum.min &&
@@ -116,12 +119,12 @@ const sorting = (data: SortData): Class[] => {
     })
 
     return classes
-};
+}
 
 /**
  *  Display Sorting Result.
  *  @param classes Class
- *  @param prefix Prefix
+ *  @param prefixes
  */
 const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
     console.log("Result !!")
@@ -138,7 +141,7 @@ const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
         });
         console.log("========================");
     })
-}
+};
 
 (async () => {
     const cli = meow(
