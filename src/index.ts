@@ -20,7 +20,7 @@ const main = (
     let data: SortData
 
     if (flags.file) {
-        // Get
+        // Get Object from file.
         const filename: string = flags.file as string
         data = getFileData(filename)
     } else if (args.length > 0 && args[0] === "generate") {
@@ -47,6 +47,8 @@ const getFileData = (filename: string): SortData => {
             sorting = JSON.parse(fs.readFileSync(`${filename}`, "utf8"))
             break;
         case ".yml":
+        case ".yaml":
+            sorting = yaml.safeLoad(fs.readFileSync(filename, "utf8"))
             break
         default:
             break
