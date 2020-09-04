@@ -3,7 +3,8 @@ import fs from "fs"
 import path from "path"
 import inquirer from "inquirer"
 import chalk from "chalk"
-const figlet = require("figlet")
+import yaml from "js-yaml"
+import figlet from "figlet"
 
 import { Class, Student, SortData, Prefix } from "./type"
 
