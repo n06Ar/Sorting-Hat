@@ -32,7 +32,7 @@ const main = (
     }
 
     displaySortingResult(sorting(data), data.prefixes)
-};
+}
 
 /**
  * Get sorting settings.
@@ -44,8 +44,8 @@ const getFileData = (filename: string): SortData => {
 
     switch (path.extname(filename)) {
         case ".json":
-            sorting = JSON.parse(fs.readFileSync(`${filename}`, "utf8"))
-            break;
+            sorting = JSON.parse(fs.readFileSync(filename, "utf8"))
+            break
         case ".yml":
         case ".yaml":
             sorting = yaml.safeLoad(fs.readFileSync(filename, "utf8"))
@@ -55,7 +55,7 @@ const getFileData = (filename: string): SortData => {
     }
 
     return sorting
-};
+}
 
 /**
  * Assign students to classes.
@@ -105,7 +105,7 @@ const sorting = (data: SortData): Class[] => {
             ) {
                 classes[classRandomIndex].students.push(student)
                 sortedStudentsCount++;
-                break
+                break;
             } else if (
                 // Assignment of people who cannot be divided
                 sortedStudentsCount >= classes.length * classStudentNum.min &&
@@ -119,12 +119,12 @@ const sorting = (data: SortData): Class[] => {
     })
 
     return classes
-};
+}
 
 /**
  *  Display Sorting Result.
  *  @param classes Class
- *  @param prefix Prefix
+ *  @param prefixes
  */
 const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
     console.log("Result !!")
@@ -141,7 +141,7 @@ const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
         });
         console.log("========================");
     })
-}
+};
 
 (async () => {
     const cli = meow(
