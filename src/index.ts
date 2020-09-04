@@ -6,7 +6,7 @@ import chalk from "chalk"
 import yaml from "js-yaml"
 import figlet from "figlet"
 
-import { Class, Student, SortData, Prefix } from "./type"
+import { Class, Student, SortData, Prefix, DisplayStatuses } from "./type"
 
 /**
  * main method.
@@ -18,6 +18,7 @@ const main = (
     flags: meow.TypedFlags<any> & { [p: string]: unknown }
 ): void => {
     let data: SortData
+    const displayStatuses: DisplayStatuses = { color: false, aa: false }
 
     if (flags.file) {
         // Get Object from file.
@@ -31,8 +32,12 @@ const main = (
         return
     }
 
-    displaySortingResult(sorting(data), data.prefixes)
-}
+    if (flags.aa) {
+        displayStatuses.aa = true
+    }
+
+    displaySortingResult(sorting(data), data.prefixes, conditions)
+};
 
 /**
  * Get sorting settings.
@@ -45,17 +50,17 @@ const getFileData = (filename: string): SortData => {
     switch (path.extname(filename)) {
         case ".json":
             sorting = JSON.parse(fs.readFileSync(filename, "utf8"))
-            break
+            break;
         case ".yml":
         case ".yaml":
             sorting = yaml.safeLoad(fs.readFileSync(filename, "utf8"))
-            break
+            break;
         default:
             break
     }
 
     return sorting
-}
+};
 
 /**
  * Assign students to classes.
@@ -105,7 +110,7 @@ const sorting = (data: SortData): Class[] => {
             ) {
                 classes[classRandomIndex].students.push(student)
                 sortedStudentsCount++;
-                break;
+                break
             } else if (
                 // Assignment of people who cannot be divided
                 sortedStudentsCount >= classes.length * classStudentNum.min &&
@@ -119,28 +124,42 @@ const sorting = (data: SortData): Class[] => {
     })
 
     return classes
-}
+};
 
 /**
  *  Display Sorting Result.
- *  @param classes Class
- *  @param prefixes
+ *  @param classes Class Data to be classified.
+ *  @param prefixes Prrefi　The prefix displayed in front of the student.
+ *  @param condition
  */
-const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
-    console.log("Result !!")
-    console.log("========================")
+const displaySortingResult = (
+    classes: Class[],
+    prefixes: Prefix[],
+    displayStatuses: DisplayStatuses
+) => {
+    print("Result!!", displayStatuses.aa)
+
+    print("================================================")
     classes.forEach((c) => {
-        console.log(c.name)
-        console.log("----------------------")
+        print(c.name, displayStatuses.aa)
+        print("--------------------------------------------")
         c.students.forEach((value, index) => {
             const prefix =
                 prefixes !== null && prefixes.length > index
                     ? prefixes[index]
                     : index + 1
-            console.log(`${prefix} : ${value.name}`)
+            print(`${prefix} : ${value.name}`, displayStatuses.aa)
         });
-        console.log("========================");
-    })
+        print("================================================")
+    });
+};
+
+const print = (value: string, aa?: boolean) => {
+    if (aa) {
+        console.log(figlet.textSync(value, "Basic"))
+    } else {
+        console.log(value)
+    }
 };
 
 (async () => {
@@ -151,16 +170,22 @@ const displaySortingResult = (classes: Class[], prefixes: Prefix[]) => {
 
     Options
       --file, -f   target json file.
+      --AA , -A    Output as ASCII art.
 
     Examples
       $ sorting-hat
       $ sorting-hat -f class.json
+      $ sorting-hat -f class.yaml
 `,
         {
             flags: {
                 file: {
                     type: "string",
                     alias: "f",
+                },
+                AA: {
+                    type: "boolean",
+                    alias: "A",
                 },
             },
         }
