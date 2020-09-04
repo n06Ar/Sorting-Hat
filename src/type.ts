@@ -12,7 +12,7 @@ export interface Student {
 /**
  * Prefix is
  */
-export type Prefix = string;
+export type Prefix = string
 
 /**
  * SortData has output data.
@@ -29,4 +29,9 @@ export interface SortData {
 export interface Class {
     name: string;
     students: Student[];
+}
+
+export interface DisplayStatuses {
+    aa: boolean;
+    color: boolean;
 }
