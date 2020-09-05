@@ -36,8 +36,8 @@ const main = (
         displayStatuses.aa = true
     }
 
-    displaySortingResult(sorting(data), data.prefixes, conditions)
-};
+    displaySortingResult(sorting(data), data.prefixes, displayStatuses)
+}
 
 /**
  * Get sorting settings.
@@ -50,17 +50,17 @@ const getFileData = (filename: string): SortData => {
     switch (path.extname(filename)) {
         case ".json":
             sorting = JSON.parse(fs.readFileSync(filename, "utf8"))
-            break;
+            break
         case ".yml":
         case ".yaml":
             sorting = yaml.safeLoad(fs.readFileSync(filename, "utf8"))
-            break;
+            break
         default:
             break
     }
 
     return sorting
-};
+}
 
 /**
  * Assign students to classes.
@@ -110,7 +110,7 @@ const sorting = (data: SortData): Class[] => {
             ) {
                 classes[classRandomIndex].students.push(student)
                 sortedStudentsCount++;
-                break
+                break;
             } else if (
                 // Assignment of people who cannot be divided
                 sortedStudentsCount >= classes.length * classStudentNum.min &&
@@ -118,13 +118,13 @@ const sorting = (data: SortData): Class[] => {
             ) {
                 classes[classRandomIndex].students.push(student)
                 sortedStudentsCount++;
-                break
+                break;
             }
         }
     })
 
     return classes
-};
+}
 
 /**
  *  Display Sorting Result.
@@ -152,7 +152,7 @@ const displaySortingResult = (
         });
         print("================================================")
     });
-};
+}
 
 const print = (value: string, aa?: boolean) => {
     if (aa) {
