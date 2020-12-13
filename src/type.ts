@@ -3,10 +3,10 @@
  * This interface has Student's name and class name of favor.
  */
 export interface Student {
-    name: "";
+    name: ""
     favor: {
-        className: string;
-    };
+        className: string
+    }
 }
 
 /**
@@ -18,20 +18,20 @@ export type Prefix = string
  * SortData has output data.
  */
 export interface SortData {
-    classNames: string[];
-    students: Student[];
-    prefixes: Prefix[];
+    classNames: string[]
+    students: Student[]
+    prefixes: Prefix[]
 }
 
 /**
  * Class Data
  */
 export interface Class {
-    name: string;
-    students: Student[];
+    name: string
+    students: Student[]
 }
 
 export interface DisplayStatuses {
-    aa: boolean;
-    color: boolean;
+    aa: boolean
+    color: boolean
 }
