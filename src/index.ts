@@ -123,7 +123,15 @@ const sorting = (data: SortData): Class[] => {
         }
     })
 
-    return classes
+    return classes.map((c) => {
+        const students = c.students.concat()
+        for (let i = students.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1))
+            ;[students[i], students[j]] = [students[j], students[i]]
+        }
+        c.students = students
+        return c
+    })
 }
 
 /**
