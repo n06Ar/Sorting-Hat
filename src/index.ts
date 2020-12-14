@@ -83,16 +83,16 @@ const sorting = (data: SortData): Class[] => {
             name: value,
             students: [],
         })
-    });
+    })
 
     // Favored assign.
     data.students.forEach((student) => {
         const index = classes.findIndex((c) => {
             return c.name === student.favor.className
-        });
+        })
         if (index >= 0) {
             classes[index].students.push(student)
-            sortedStudentsCount++;
+            sortedStudentsCount++
         } else {
             students.push(student)
         }
@@ -109,16 +109,16 @@ const sorting = (data: SortData): Class[] => {
                 classes[classRandomIndex].students.length < classStudentNum.min
             ) {
                 classes[classRandomIndex].students.push(student)
-                sortedStudentsCount++;
-                break;
+                sortedStudentsCount++
+                break
             } else if (
                 // Assignment of people who cannot be divided
                 sortedStudentsCount >= classes.length * classStudentNum.min &&
                 classes[classRandomIndex].students.length < classStudentNum.max
             ) {
                 classes[classRandomIndex].students.push(student)
-                sortedStudentsCount++;
-                break;
+                sortedStudentsCount++
+                break
             }
         }
     })
@@ -149,9 +149,9 @@ const displaySortingResult = (
                     ? prefixes[index]
                     : index + 1
             print(`${prefix} : ${value.name}`, displayStatuses.aa)
-        });
+        })
         print("================================================")
-    });
+    })
 }
 
 const print = (value: string, aa?: boolean) => {
@@ -177,18 +177,17 @@ const print = (value: string, aa?: boolean) => {
       $ sorting-hat -f class.json
       $ sorting-hat -f class.yaml
 `,
-        {
-            flags: {
-                file: {
-                    type: "string",
-                    alias: "f",
-                },
-                AA: {
-                    type: "boolean",
-                    alias: "A",
-                },
+    {
+        flags: {
+            file: {
+                type: "string",
+                alias: "f",
             },
-        }
-    )
-    main(cli.input, cli.flags)
-})()
+            AA: {
+                type: "boolean",
+                alias: "A",
+            },
+        },
+    }
+)
+main(cli.input, cli.flags)
